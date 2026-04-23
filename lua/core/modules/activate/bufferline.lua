@@ -25,7 +25,8 @@ return {
         separator_style = { '//', '//' },
         -- separator_style = "slant" | "slope" | "thick" | "thin" | { 'any', 'any' },
         indicator = {
-          icon = '&',
+          -- icon = '',
+          icon = '',
           style = 'icon',
         },
         show_buffer_icons = true,

@@ -1,18 +1,23 @@
+-- import keymap testing file
+require("./keytest.lua")
+
 -- [[ Directories ]]
 -- user dirs
 
 function get_xdg_dir(dirname)
   dirname = string.upper(dirname)
   local handle = io.popen(string.format('xdg-user-dir %s', dirname))
-  local result = handle:read '*a'
-  handle:close()
-  return result:match '^%s*(.-)%s*$'
+  if handle then
+    local result = handle:read '*a'
+    handle:close()
+    return result:match '^%s*(.-)%s*$'
+  end
 end
 
 local desk = get_xdg_dir 'desktop'
-local music = get_xdg_dir 'music'
 local docs = get_xdg_dir 'documents'
 local download = get_xdg_dir 'download'
+local music = get_xdg_dir 'music'
 local pics = get_xdg_dir 'pictures'
 local share = get_xdg_dir 'publicshare'
 local template = get_xdg_dir 'templates'
@@ -154,35 +159,29 @@ vim.keymap.set('v', '<down>', '<cmd>echo "Use j to move!!"<CR>')
 --[[ Yanking ]]
 --
 -- Copy to clipboard
-vim.keymap.set('n', '<leader>yf', ":let @+=expand('%:t')<CR>", { desc = 'yank file name' }) -- yank file name
-vim.keymap.set('n', '<leader>yp', ":let @+=expand('%:p')<CR>", { desc = 'yank file path' }) -- yank file path
+vim.keymap.set('n', '<leader>yf', ":let @+=expand('%:t')<CR>", { desc = 'yank file name' })        -- yank file name
+vim.keymap.set('n', '<leader>yp', ":let @+=expand('%:p')<CR>", { desc = 'yank file path' })        -- yank file path
 vim.keymap.set('n', '<leader>yd', ":let @+=expand('%:p:h')<CR>", { desc = 'yank directory path' }) -- yank directory path
 vim.keymap.set('n', '<leader>yg', ":!cat '%:p' | wl-copy<CR>", { desc = 'yank file contents' })
 
 --[[ Pastebins ]]
 -- Fish
-vim.keymap.set('n', '<leader>pp', ':!paste-pick -p %<CR>', { desc = 'paste file to paste.c-net.org' }) -- paste.c-net.org
-vim.keymap.set('n', '<leader>pt', ':!paste-pick -t %<CR>', { desc = 'paste file to termbin.com' }) -- termbin.com
-vim.keymap.set('n', '<leader>pn', ':!paste-pick -z %<CR>', { desc = 'paste file to 0x0.st' }) -- 0x0.st
+vim.keymap.set('n', '<leader>pp', ':!paste-pick -p %<CR>', { desc = '(fish) paste file to paste.c-net.org' })           -- paste.c-net.org
+vim.keymap.set('n', '<leader>pt', ':!paste-pick -t %<CR>', { desc = '(fish) paste file to termbin.com' })               -- termbin.com
+vim.keymap.set('n', '<leader>pn', ':!paste-pick -z %<CR>', { desc = '(fish) paste file to 0x0.st' })                    -- 0x0.st
 
-vim.keymap.set({ 'v', 'x' }, '<leader>pp', ':w !paste-pick -p<CR>', { desc = 'paste lines to paste.c-net.org' }) -- paste.c-net.org
-vim.keymap.set({ 'v', 'x' }, '<leader>pt', ':w !paste-pick -t<CR>', { desc = 'paste lines to termbin.com' }) -- termbin.com
-vim.keymap.set({ 'v', 'x' }, '<leader>pn', ':w !paste-pick -z<CR>', { desc = 'paste lines to 0x0.st' }) -- 0x0.st
+vim.keymap.set({ 'v', 'x' }, '<leader>pp', ':w !paste-pick -p<CR>', { desc = '(fish) paste lines to paste.c-net.org' }) -- paste.c-net.org
+vim.keymap.set({ 'v', 'x' }, '<leader>pt', ':w !paste-pick -t<CR>', { desc = '(fish) paste lines to termbin.com' })     -- termbin.com
+vim.keymap.set({ 'v', 'x' }, '<leader>pn', ':w !paste-pick -z<CR>', { desc = '(fish) paste lines to 0x0.st' })          -- 0x0.st
 
 -- Bash
+vim.keymap.set('n', '<leader>pe', ':!paste-pick.sh -p %<CR>', { desc = '(bash) paste file to paste.c-net.org' })           -- paste.c-net.org
+vim.keymap.set('n', '<leader>pr', ':!paste-pick.sh -t %<CR>', { desc = '(bash) paste file to termbin.com' })               -- termbin.com
+vim.keymap.set('n', '<leader>pb', ':!paste-pick.sh -z %<CR>', { desc = '(bash) paste file to 0x0.st' })                    -- 0x0.st
 
-vim.keymap.set('n', '<leader>pe', ':!paste-pick.sh -p %<CR>', { desc = 'paste file to paste.c-net.org' }) -- paste.c-net.org
-vim.keymap.set('n', '<leader>pr', ':!paste-pick.sh -t %<CR>', { desc = 'paste file to termbin.com' }) -- termbin.com
-vim.keymap.set('n', '<leader>pb', ':!paste-pick.sh -z %<CR>', { desc = 'paste file to 0x0.st' }) -- 0x0.st
-
-vim.keymap.set({ 'v', 'x' }, '<leader>pe', ':w !paste-pick.sh -p<CR>', { desc = 'paste lines to paste.c-net.org' }) -- paste.c-net.org
-vim.keymap.set({ 'v', 'x' }, '<leader>pr', ':w !paste-pick.sh -t<CR>', { desc = 'paste lines to termbin.com' }) -- termbin.com
-vim.keymap.set({ 'v', 'x' }, '<leader>pb', ':w !cat<CR>', { desc = 'paste lines to 0x0.st' }) -- 0x0.st
-
---[[ Testing ]]
---
-vim.keymap.set({ 'n' }, '<leader>pq', '<cmd>!echo "normal"<CR>', { desc = 'run normal command' })
-vim.keymap.set({ 'v', 'x' }, '<leader>pq', '<cmd>w !echo "visual"<CR>', { desc = 'run visual command' })
+vim.keymap.set({ 'v', 'x' }, '<leader>pe', ':w !paste-pick.sh -p<CR>', { desc = '(bash) paste lines to paste.c-net.org' }) -- paste.c-net.org
+vim.keymap.set({ 'v', 'x' }, '<leader>pr', ':w !paste-pick.sh -t<CR>', { desc = '(bash) paste lines to termbin.com' })     -- termbin.com
+vim.keymap.set({ 'v', 'x' }, '<leader>pb', ':w !paste-pick.sh -z<CR>', { desc = '(bash) paste lines to 0x0.st' })          -- 0x0.st
 
 --[[ File Browsing ]]
 --
@@ -322,11 +321,12 @@ vim.keymap.set('n', '<leader>w<leader>n', ':VimwikiTabIndex<CR> :VimwikiGoto<CR>
 -- To Do
 -- Append current date on open if current date not present
 --
-vim.keymap.set('n', '<leader>wx', string.format(':50 vs %s/wiki/main/global-task.md<CR>', docs), { desc = 'Open Global Task List' })
+vim.keymap.set('n', '<leader>wx', string.format(':50 vs %s/wiki/main/global-task.md<CR>', docs),
+  { desc = 'Open Global Task List' })
 
 --[[ Substitution ]]
 --
-vim.keymap.set('n', '<leader>rs', ':%s///g<left><left><left>', { desc = '[R]eplace [G]lobal' }) -- substitute
+vim.keymap.set('n', '<leader>rs', ':%s///g<left><left><left>', { desc = '[R]eplace [G]lobal' })                -- substitute
 vim.keymap.set('n', '<leader>rc', ':%s///gc<left><left><left><left>', { desc = '[R]eplace Global [C]onfirm' }) -- substitute w/ confirmation
 
 --[[ Spell Check ]]

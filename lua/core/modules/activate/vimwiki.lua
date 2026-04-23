@@ -1,12 +1,27 @@
 function get_xdg_dir(dirname)
   dirname = string.upper(dirname)
   local handle = io.popen(string.format('xdg-user-dir %s', dirname))
-  local result = handle:read '*a'
-  handle:close()
-  return result:match '^%s*(.-)%s*$'
+  if handle then
+    local result = handle:read '*a'
+    handle:close()
+    return result:match '^%s*(.-)%s*$'
+  end
 end
 
 local docs = get_xdg_dir 'documents'
+local nested = {
+  bash = 'bash',
+  cpp = 'cpp',
+  fish = 'fish',
+  ini = 'ini',
+  lua = 'lua',
+  nix = 'nix',
+  python = 'python',
+  sh = 'sh',
+  tin = 'tin',
+  vifm = 'vimscript',
+}
+
 return {
   'vimwiki/vimwiki',
   lazy = false,
@@ -17,70 +32,28 @@ return {
       {
         path = string.format('%s/wiki/main/', docs),
         syntax = 'markdown',
-        nested_syntaxes = {
-          bash = 'bash',
-          cpp = 'cpp',
-          fish = 'fish',
-          ini = 'ini',
-          lua = 'lua',
-          nix = 'nix',
-          python = 'python',
-          sh = 'sh',
-          vifm = 'vimscript',
-        },
+        nested_syntaxes = nested,
         ext = 'md',
         links_space_char = '_',
       },
       {
         path = string.format('%s/wiki/farm/', docs),
         syntax = 'markdown',
-        nested_syntaxes = {
-          bash = 'bash',
-          cpp = 'cpp',
-          fish = 'fish',
-          ini = 'ini',
-          lua = 'lua',
-          nix = 'nix',
-          python = 'python',
-          sh = 'sh',
-          vifm = 'vimscript',
-        },
+        nested_syntaxes = nested,
         ext = 'md',
         links_space_char = '_',
       },
       {
         path = string.format('%s/wiki/r-ableton/', docs),
         syntax = 'markdown',
-        nested_syntaxes = {
-          bash = 'bash',
-          cpp = 'cpp',
-          fish = 'fish',
-          ini = 'ini',
-          lua = 'lua',
-          nix = 'nix',
-          python = 'python',
-          sh = 'sh',
-          vifm = 'vimscript',
-        },
+        nested_syntaxes = nested,
         ext = 'md',
         links_space_char = '_',
       },
       {
         path = '/home/fugue/',
         syntax = 'markdown',
-        nested_syntaxes = {
-          bash = 'bash',
-          cpp = 'cpp',
-          fish = 'fish',
-          ini = 'ini',
-          lua = 'lua',
-          man = 'sh',
-          nix = 'nix',
-          python = 'python',
-          sh = 'sh',
-          tin = 'tin',
-          vifm = 'vimscript',
-        },
+        nested_syntaxes = nested,
         diary_rel_path = '/documentos/wiki/main/diary/',
         ext = 'md',
         links_space_char = '_',
