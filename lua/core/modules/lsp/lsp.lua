@@ -217,6 +217,18 @@ vim.lsp.config['phpls'] = {
   },
 }
 
+vim.lsp.config['qmlls'] = {
+  cmd = { 'qmlls' },
+  filetypes = { 'qml', 'qmljs' },
+  root_markers = { '.git' },
+  capabilities = caps,
+  settings = {
+    formatting = {
+      command = { "qmlformat" }
+    },
+  },
+};
+
 vim.lsp.config['rust_analyzer'] = {
   cmd = { 'rust-analyzer' },
   filetypes = { 'rust' },
