@@ -201,3 +201,7 @@ map('n', '<leader>ni', function()
 end, { desc = '[N]ew [I]ssue' })
 
 map('n', '<leader>w<leader>n', ':VimwikiTabIndex<CR> :VimwikiGoto<CR>', { desc = '[N]ew [W]iki File' })
+
+-- Quick Kanban
+
+map('n', '<leader>k', ':QuickKanban<CR>', { desc = 'Open [K]anban' })
