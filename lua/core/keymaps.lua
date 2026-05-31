@@ -1,6 +1,7 @@
 -- keymaps.lua
 local configFile = "/home/fugue/.config/nvim/init.lua"
 local map = vim.keymap.set
+require("core.keytest")
 -- old rhs
 -- ':update /home/fugue/.config/nvim/init.lua<CR>:source /home/fugue/.config/nvim/init.lua<CR>'
 map(
@@ -112,6 +113,8 @@ map({ 'v', 'x' }, '<leader>M', "I[<esc>gvlA]()<esc><left>p", { desc = "MD: Creat
 -- map('v', '<leader>M', 'c[]()<esc>F[pf(a', { desc = "MD: Create link on current word" })
 -- map('v', '<leader>M', ":s/.*/[&]()<CR><left>p", { desc = "MD: Create link on current word" })
 -- map('v', '<leader>M', ":s'<,.*>:[&]()/g<CR><left>p", { desc = "MD: Create link on current word" })
+
+map('n', '<leader>xd', ':DiagnoticToggle', { desc = "[X]oggle [D]iagnotics" })
 
 --[[ Substitution ]]
 --

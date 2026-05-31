@@ -9,9 +9,11 @@
 local function get_xdg_dir(dirname)
   dirname = string.upper(dirname)
   local handle = io.popen(string.format('xdg-user-dir %s', dirname))
-  local result = handle:read '*a'
-  handle:close()
-  return result:match '^%s*(.-)%s*$'
+  if handle then
+    local result = handle:read '*a'
+    handle:close()
+    return result:match '^%s*(.-)%s*$'
+  end
 end
 
 local docs = get_xdg_dir 'documents'

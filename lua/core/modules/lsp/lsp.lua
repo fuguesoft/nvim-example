@@ -114,7 +114,6 @@ vim.lsp.config['cssls'] = {
   },
 }
 
-
 vim.lsp.config['godot_resource'] = {
   capabilities = caps
   -- could I add the nvim-godot setup here as a command?
