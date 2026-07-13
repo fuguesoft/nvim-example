@@ -84,6 +84,26 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 local caps = require("cmp_nvim_lsp").default_capabilities()
 
+-- Bash
+vim.lsp.config['bashls'] = {
+  cmd = {
+    'bash-language-server',
+    'start',
+  },
+  filetypes = {
+    "bash",
+    "sh"
+  },
+  root_markers = {
+    '.git'
+  },
+  settings = {
+    bashIde = {
+      globPattern = "*@(.sh|.inc|.bash|.command)"
+    }
+  }
+}
+
 -- C / C++ via clangd
 vim.lsp.config['clangd'] = {
   cmd = {

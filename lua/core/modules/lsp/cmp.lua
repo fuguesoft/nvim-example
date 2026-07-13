@@ -2,16 +2,17 @@ return {
   "hrsh7th/nvim-cmp",
   event = "InsertEnter",
   dependencies = {
-    "hrsh7th/cmp-buffer", -- source for text in buffer
-    "hrsh7th/cmp-path", -- source for file system paths
-    "hrsh7th/cmp-nvim-lua", -- source for nvim lua builtins
-    "hrsh7th/cmp-nvim-lsp", -- source for nvim-lsp
+    "hrsh7th/cmp-buffer",                  -- source for text in buffer
+    "hrsh7th/cmp-path",                    -- source for file system paths
+    "hrsh7th/cmp-nvim-lua",                -- source for nvim lua builtins
+    "hrsh7th/cmp-nvim-lsp",                -- source for nvim-lsp
+    -- "hrsh7th/cmp-vim-lsp",                 -- source for vim-lsp
     "hrsh7th/cmp-nvim-lsp-signature-help", -- source for code signature
-    "neovim/nvim-lspconfig", -- source the lsp
-    "L3MON4D3/LuaSnip", -- snippet engine
-    "saadparwaiz1/cmp_luasnip", -- for autocompletion
-    "rafamadriz/friendly-snippets", -- useful snippets
-    "onsails/lspkind.nvim", -- vs-code like pictograms
+    "neovim/nvim-lspconfig",               -- source the lsp
+    "L3MON4D3/LuaSnip",                    -- snippet engine
+    "saadparwaiz1/cmp_luasnip",            -- for autocompletion
+    "rafamadriz/friendly-snippets",        -- useful snippets
+    "onsails/lspkind.nvim",                -- vs-code like pictograms
   },
   config = function()
     local cmp = require("cmp")
@@ -23,19 +24,19 @@ return {
     -- loads vscode style snippets from installed plugins (e.g. friendly-snippets)
     require("luasnip.loaders.from_vscode").lazy_load()
 
-    require'luasnip'.filetype_extend("php", {"html"})
-    require'luasnip'.filetype_extend("php", {"phpdoc"})
-    require'luasnip'.filetype_extend("php", {"blade"})
+    require 'luasnip'.filetype_extend("php", { "html" })
+    require 'luasnip'.filetype_extend("php", { "phpdoc" })
+    require 'luasnip'.filetype_extend("php", { "blade" })
     -- require'luasnip'.filetype_extend("php", {"css"})
-    require'luasnip'.filetype_extend("vue", {"html"})
+    require 'luasnip'.filetype_extend("vue", { "html" })
 
     cmp.setup({
       completion = {
-        completeopt = "menu,menuone,preview,noselect",
+        completeopt = "menu,menuone,preview",
       },
       snippet = { -- configure how nvim-cmp interacts with snippet engine
         expand = function(args)
-            luasnip.lsp_expand(args.body)
+          luasnip.lsp_expand(args.body)
         end,
       },
       mapping = cmp.mapping.preset.insert({
@@ -44,17 +45,18 @@ return {
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(), -- show completion suggestions
-        ["<C-c>"] = cmp.mapping.abort(), -- close completion window
+        ["<C-c>"] = cmp.mapping.abort(),        -- close completion window
         ["<CR>"] = cmp.mapping.confirm({ select = false }),
       }),
       -- sources for autocompletion
       sources = cmp.config.sources({
         { name = "nvim_lua" },
         { name = "nvim_lsp" },
+        { name = "vim_lsp" },
         { name = "nvim_lsp_lsp_signature_help" }, -- code signature
-        { name = "luasnip" }, -- snippets
-        { name = "buffer" }, -- text within current buffer
-        { name = "path" }, -- file system paths
+        { name = "luasnip" },                     -- snippets
+        { name = "buffer" },                      -- text within current buffer
+        { name = "path" },                        -- file system paths
       }),
       -- configure lspkind for vs-code like pictograms in completion menu
       formatting = {
@@ -64,5 +66,17 @@ return {
         }),
       },
     })
+    -- cmp.setup.filetype({ 'markdown', 'vimwiki.markdown' }, {
+    --   sources = cmp.config.sources(
+    --     { name = "nvim_lua" },
+    --     { name = "nvim_lsp" },
+    --     { name = "vim_lsp" },
+    --     { name = "nvim_lsp_lsp_signature_help" }, -- code signature
+    --     { name = "luasnip" },                     -- snippets
+    --     { name = "buffer" },                      -- text within current buffer
+    --     { name = "path" },                        -- file system paths
+    --     { name = 'markdown' })
+    -- })
+    -- require("cmp_markdown").setup()
   end,
 }

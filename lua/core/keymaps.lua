@@ -105,8 +105,9 @@ map('n', 'gK', '<cmd>norm! K<CR>', { desc = 'Open code help' })
 
 -- [[ File Type ]]
 -- Markdown
+-- map('n', '<leader>M', 'viWsa]Ea()<left><esc>p', { desc = "MD: Create link on current word" })
 map('n', '<leader>M', 'eBi[<esc>Ea]()<left><esc>p', { desc = "MD: Create link on current word" })
-map({ 'v', 'x' }, '<leader>M', "I[<esc>gvlA]()<esc><left>p", { desc = "MD: Create link on current selection" })
+map({ 'v', 'x' }, '<leader>M', "sa]gvla()<esc><left>p", { desc = "MD: Create link on current selection" })
 
 -- problem: this replaces the link I may or may not have in my clipboard with
 -- the (c)hanged text
@@ -201,6 +202,8 @@ map('n', '<leader>ni', function()
 end, { desc = '[N]ew [I]ssue' })
 
 map('n', '<leader>w<leader>n', ':VimwikiTabIndex<CR> :VimwikiGoto<CR>', { desc = '[N]ew [W]iki File' })
+
+map('n', '<leader>md', ':MarkdownPreviewToggle<CR>', { desc = 'Toggle [M]ark[d]own' })
 
 -- Quick Kanban
 

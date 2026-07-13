@@ -64,8 +64,11 @@ return {
     vim.g.diary_start_week_day = 'sunday'
     vim.g.auto_chdir = 1
     vim.g.cycle_bullets = 1
-    vim.g.vimwiki_global_ext = 0
-    -- vim.g.vimwiki_ext2syntax = { '.md': 'markdown', }
+    vim.g.vimwiki_global_ext = 1
+    -- vim.g.vimwiki_ext2syntax = {
+    --   '.md': 'markdown',
+    --   '.txt': 'markdown',
+    -- }
     vim.g.vimwiki_filetypes = {
       'markdown',
     }
