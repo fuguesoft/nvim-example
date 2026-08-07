@@ -1,27 +1,37 @@
 -- keymaps.lua
-local configFile = "/home/fugue/.config/nvim/init.lua"
+-- local configFile = "/home/fugue/.config/nvim/init.lua"
+local configFile = vim.fn.expand("$XDG_CONFIG_HOME") .. '/nvim/init.lua'
+local keymapFile = vim.fn.expand('$XDG_CONFIG_HOME') .. '/nvim/lua/core/keymaps.lua'
 local map = vim.keymap.set
 require("core.keytest")
 -- old rhs
 -- ':update /home/fugue/.config/nvim/init.lua<CR>:source /home/fugue/.config/nvim/init.lua<CR>'
+
+-- [[ Neovim ]]
+-- source init.lua
 map(
   'n',
   '<leader>so',
   ':update ' .. configFile .. '<CR>:source' .. configFile .. '<CR>',
-  {}
+  { desc = '[So]urce init.lua' }
 )
 
--- [[ State Management ]]
-map('n', '<leader>w', ':write<CR>')
-map('n', '<leader>W', ':wq<CR>')
+-- source keymap.lua
+map('n', '<leader>K', ':source ' .. keymapFile .. '<CR>', { desc = 'Source [Keymaps]' })
+
+map('n', '<leader>R', ':restart<CR>', { desc = "[R]estart neovim" })
+
+-- File
+map('n', '<leader>w', ':write<CR>', { desc = "[W]rite" })
+map('n', '<leader>W', ':wq<CR>', { desc = "[W]rite and [Q]uit" })
 map('n', '<leader>q', ':quit<CR>', { desc = "[Q]uit" })
 map('n', '<leader>Q', ':quit!<CR>', { desc = "Force [Q]uit" })
-map('n', '<leader>A', ':qa!<CR>', { desc = 'Force Quit [A]ll without saving' })
-map('n', '<leader>R', ':restart<CR>', { desc = "[R]estart neovim" })
-map('n', '<leader>lf', vim.lsp.buf.format, { desc = "[F]ormat buffer" })
+map('n', '<leader>A', ':qa!<CR>', { desc = 'Force [Q]uit [A]ll without saving' })
+map('n', '<leader>xc', ':!chmod +x %<CR>', { desc = "Make E[x]e[c]utable" })
 
 -- Windows
-map('n', '<leader>v', ':vnew<CR>', { desc = '[V]ertical [S]plit' })
+map('n', '<leader>v', ':new<CR>', { desc = 'Horizontal Split' })
+map('n', '<leader>b', ':vnew<CR>', { desc = 'Vertical Split' })
 
 -- Tabs
 map('n', '<A-t>', ':tabnew<CR>', { desc = '[T]ab [O]pen' })
@@ -36,8 +46,9 @@ map('n', '<A-C-,>', ':tabm -1<CR>', { desc = 'Move Tab Left' })
 
 -- Buffers
 map('n', '<leader>D', ':bd!<CR>', { desc = "[B]uffer [D]elete" })
+map('n', '<leader>lf', vim.lsp.buf.format, { desc = "[F]ormat buffer" })
 
--- Navigation
+-- [[ Navigation ]]
 map('n', 'n', 'nzzzv', { desc = 'Next result (centered)' })
 map('n', 'N', 'Nzzzv', { desc = 'Previous result (centered)' })
 map('n', '<C-d>', '<C-d>zz', { desc = 'Half page down (centered)' })
@@ -45,7 +56,7 @@ map('n', '<C-u>', '<C-u>zz', { desc = 'Half page up (centered)' })
 map('n', '<C-f>', '<C-f>zz', { desc = 'Page down (centered)' })
 map('n', '<C-b>', '<C-b>zz', { desc = 'Page up (centered)' })
 
---[[ vi4lyfe ]]
+-- vi4lyfe
 --
 -- TIP: Disable arrow keys in normal mode
 map('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
@@ -119,8 +130,9 @@ map('n', '<leader>xd', ':DiagnoticToggle', { desc = "[X]oggle [D]iagnotics" })
 
 --[[ Substitution ]]
 --
-map('n', '<leader>rs', ':%s///g<left><left><left>', { desc = '[R]eplace [G]lobal' })                -- substitute
+map('n', '<leader>rg', ':%s///g<left><left><left>', { desc = '[R]eplace [G]lobal' })                -- substitute
 map('n', '<leader>rc', ':%s///gc<left><left><left><left>', { desc = '[R]eplace Global [C]onfirm' }) -- substitute w/ confirmation
+map('n', '<leader>rs', ':%s/\\s*$//g<CR>|:nohl<CR>', { desc = '[D]elete Trailing Spaces' })         -- delete all trailing spaces at EOL
 
 --[[ Spell Check ]]
 --
@@ -147,7 +159,7 @@ map('n', '<leader>cd', function()
   vim.cmd(string.format('tcd %s', directory))
   print(string.format('working dir: %s', directory))
   return {}
-end)
+end, { desc = '[C]hange [D]irectory' })
 
 -- Vimwiki
 map('n', '<leader>wi', ':VimwikiIndex<CR>', { desc = 'Open Vimwiki Index' })

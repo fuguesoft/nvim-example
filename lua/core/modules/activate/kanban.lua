@@ -7,7 +7,8 @@ return {
         -- Full path to directory where the kanban board data will be stored.
         -- Leave nil to create the directory in the current working directory.
         -- Takes precedence over `directory_name` when set.
-        path = "/home/fugue/documentos/kanban/",
+        path = "nil",
+        -- path = "/home/fugue/documentos/kanban/",
 
         -- Name of the directory created in the current working directory.
         -- Only used when `path` is nil. Defaults to ".quick-kanban".
