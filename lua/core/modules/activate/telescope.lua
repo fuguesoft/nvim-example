@@ -95,7 +95,10 @@ return {
               ['<S-CR>'] = function(bufnr)
                 require('telescope.actions.set').edit(bufnr, 'tabedit')
               end,
-              ['<C-s>'] = function(bufnr)
+              ['<C-v>'] = function(bufnr)
+                require('telescope.actions.set').edit(bufnr, 'split')
+              end,
+              ['<C-b>'] = function(bufnr)
                 require('telescope.actions.set').edit(bufnr, 'vsplit')
               end,
             },
@@ -107,7 +110,10 @@ return {
               ['<S-CR>'] = function(bufnr)
                 require('telescope.actions.set').edit(bufnr, 'tabedit')
               end,
-              ['<C-s>'] = function(bufnr)
+              ['<C-v>'] = function(bufnr)
+                require('telescope.actions.set').edit(bufnr, 'split')
+              end,
+              ['<C-b>'] = function(bufnr)
                 require('telescope.actions.set').edit(bufnr, 'vsplit')
               end,
               ['dd'] = require('telescope.actions').delete_buffer,
