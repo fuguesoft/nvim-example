@@ -191,6 +191,10 @@ return {
       vim.keymap.set('n', '<leader>sl', function()
         builtin.find_files { cwd = '~/.local/bin/' }
       end, { desc = '[S]earch .[L]ocal' })
+
+      vim.keymap.set('n', '<leader>sd', function()
+        builtin.find_files { cwd = '~/dev/' }
+      end, { desc = '[S]earch [D]ev' })
     end,
   },
 

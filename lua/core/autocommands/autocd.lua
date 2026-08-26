@@ -4,9 +4,10 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
   callback = function(ev)
     --[[ change directory ]] --
     if vim.bo[ev.buf].buftype ~= "terminal" then
-      local directory = vim.fn['expand'] '%:h'
-      -- vim.cmd(string.format('tcd %s', directory))
-      -- print(string.format('working dir: %s', directory))
+      local path = vim.fn['expand'] '%:p'
+      local dirname = string.gsub(path, '(.*/)(.*)', '%1')
+      -- vim.cmd(string.format('tcd %s', dirname))
+      print(string.format('working dir: %s', dirname))
     end
   end,
 })

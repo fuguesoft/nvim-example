@@ -1,9 +1,9 @@
 -- keymaps.lua
 -- local configFile = "/home/fugue/.config/nvim/init.lua"
-local configFile = vim.fn.expand("$XDG_CONFIG_HOME") .. '/nvim/init.lua'
+local configFile = vim.fn.expand('$XDG_CONFIG_HOME') .. '/nvim/init.lua'
 local keymapFile = vim.fn.expand('$XDG_CONFIG_HOME') .. '/nvim/lua/core/keymaps.lua'
 local map = vim.keymap.set
-require("core.keytest")
+require('core.keytest')
 -- old rhs
 -- ':update /home/fugue/.config/nvim/init.lua<CR>:source /home/fugue/.config/nvim/init.lua<CR>'
 
@@ -11,23 +11,24 @@ require("core.keytest")
 -- source init.lua
 map(
   'n',
-  '<leader>so',
+  '<leader>xo',
   ':update ' .. configFile .. '<CR>:source' .. configFile .. '<CR>',
-  { desc = '[So]urce init.lua' }
+  { desc = 'Source init.lua' }
 )
 
 -- source keymap.lua
-map('n', '<leader>K', ':source ' .. keymapFile .. '<CR>', { desc = 'Source [Keymaps]' })
+map('n', '<leader>xk', ':source ' .. keymapFile .. '<CR>', { desc = 'Source [K]eymaps' })
+map('n', '<leader>xx', ':so<CR>', { desc = 'Source %' })
 
 map('n', '<leader>R', ':restart<CR>', { desc = "[R]estart neovim" })
 
 -- File
-map('n', '<leader>w', ':write<CR>', { desc = "[W]rite" })
-map('n', '<leader>W', ':wq<CR>', { desc = "[W]rite and [Q]uit" })
-map('n', '<leader>q', ':quit<CR>', { desc = "[Q]uit" })
-map('n', '<leader>Q', ':quit!<CR>', { desc = "Force [Q]uit" })
+map('n', '<leader>w', ':write<CR>', { desc = '[W]rite' })
+map('n', '<leader>W', ':wq<CR>', { desc = '[W]rite and [Q]uit' })
+map('n', '<leader>q', ':quit<CR>', { desc = '[Q]uit' })
+map('n', '<leader>Q', ':quit!<CR>', { desc = 'Force [Q]uit' })
 map('n', '<leader>A', ':qa!<CR>', { desc = 'Force [Q]uit [A]ll without saving' })
-map('n', '<leader>xc', ':!chmod +x %<CR>', { desc = "Make E[x]e[c]utable" })
+map('n', '<leader>xc', ':!chmod +x %<CR>', { desc = 'Make E[x]e[c]utable' })
 
 -- Windows
 map('n', '<leader>v', ':new<CR>', { desc = 'Horizontal Split' })
@@ -45,8 +46,8 @@ map('n', '<A-C-.>', ':tabm +1<CR>', { desc = 'Move Tab Right' })
 map('n', '<A-C-,>', ':tabm -1<CR>', { desc = 'Move Tab Left' })
 
 -- Buffers
-map('n', '<leader>D', ':bd!<CR>', { desc = "[B]uffer [D]elete" })
-map('n', '<leader>lf', vim.lsp.buf.format, { desc = "[F]ormat buffer" })
+map('n', '<leader>D', ':bd!<CR>', { desc = '[B]uffer [D]elete' })
+map('n', '<leader>lf', vim.lsp.buf.format, { desc = '[F]ormat buffer' })
 
 -- [[ Navigation ]]
 map('n', 'n', 'nzzzv', { desc = 'Next result (centered)' })
