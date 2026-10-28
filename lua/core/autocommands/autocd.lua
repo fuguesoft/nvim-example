@@ -7,7 +7,7 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
       local path = vim.fn['expand'] '%:p'
       local dirname = string.gsub(path, '(.*/)(.*)', '%1')
       -- vim.cmd(string.format('tcd %s', dirname))
-      print(string.format('working dir: %s', dirname))
+      -- print(string.format('working dir: %s', dirname))
     end
   end,
 })

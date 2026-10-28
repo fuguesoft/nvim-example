@@ -1,7 +1,6 @@
 -- options.lua
 local o = vim.opt
 
-
 o.number = true
 o.relativenumber = true
 vim.g.mapleader = ' '
@@ -43,3 +42,6 @@ o.matchtime = 2
 
 -- autoread changed files
 o.autoread = true
+
+-- reference section --
+o.nrformats = "bin,hex"

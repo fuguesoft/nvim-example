@@ -154,7 +154,7 @@ return {
       vim.keymap.set('n', '<leader><leader>', ':Telescope telescope-tabs list_tabs<CR>',
         { desc = '[ ] Find existing tabs' })
       vim.keymap.set('n', '<leader>sb', builtin.buffers, { desc = '[ ] Find existing buffers' })
-      vim.keymap.set('n', '<leader>sa', builtin.planets, { desc = 'Use the telescope...' })
+      vim.keymap.set('n', '<leader>st', builtin.planets, { desc = 'Use the telescope...' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()

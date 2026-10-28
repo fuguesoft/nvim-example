@@ -5,7 +5,6 @@ vim.api.nvim_create_autocmd('BufWinEnter', {
     local filename = vim.fn.expand('%:t')
     -- vim.notify(tostring(filename))
     if vim.startswith(filename, 'concord-message-') then
-      -- vim.o.filetype = 'vimwiki.markdown'
       vim.o.filetype = 'markdown'
       vim.o.shiftwidth = 2
       vim.g.vimwiki_syntax = 'markdown'

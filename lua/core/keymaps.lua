@@ -2,6 +2,7 @@
 -- local configFile = "/home/fugue/.config/nvim/init.lua"
 local configFile = vim.fn.expand('$XDG_CONFIG_HOME') .. '/nvim/init.lua'
 local keymapFile = vim.fn.expand('$XDG_CONFIG_HOME') .. '/nvim/lua/core/keymaps.lua'
+local wikiDirMain = vim.fn.expand('$XDG_DOCUMENTS_DIR') .. '/wiki/main'
 local map = vim.keymap.set
 require('core.keytest')
 -- old rhs
@@ -35,10 +36,10 @@ map('n', '<leader>v', ':new<CR>', { desc = 'Horizontal Split' })
 map('n', '<leader>b', ':vnew<CR>', { desc = 'Vertical Split' })
 
 -- Tabs
-map('n', '<A-t>', ':tabnew<CR>', { desc = '[T]ab [O]pen' })
-map('n', '<A-d>', ':tabclose<CR>', { desc = '[T]ab [O]pen' })
-map('n', '<A-.>', ':tabn<CR>', { desc = '[T]ab [N]ext' })
-map('n', '<A-,>', ':tabp<CR>', { desc = '[T]ab [P]revious' })
+map('n', '<A-t>', ':tabnew<CR>', { desc = 'Tab Open' })
+map('n', '<A-d>', ':tabclose<CR>', { desc = 'Tab Close' })
+map('n', '<A-.>', ':tabn<CR>', { desc = 'Tab Next' })
+map('n', '<A-,>', ':tabp<CR>', { desc = 'Tab Previous' })
 
 map('n', '<A-S-.>', ':tabm +1<CR>', { desc = 'Move Tab Right' })
 map('n', '<A-S-,>', ':tabm -1<CR>', { desc = 'Move Tab Left' })
@@ -99,10 +100,12 @@ map('n', '<leader>yg', ":!cat '%:p' | wl-copy<CR>", { desc = 'yank file contents
 map('n', '<leader>pp', ':!paste-pick -p %<CR>', { desc = 'paste file to paste.c-net.org' })           -- paste.c-net.org
 map('n', '<leader>pt', ':!paste-pick -t %<CR>', { desc = 'paste file to termbin.com' })               -- termbin.com
 map('n', '<leader>pn', ':!paste-pick -z %<CR>', { desc = 'paste file to 0x0.st' })                    -- 0x0.st
+map('n', '<leader>pm', ':!md-paste %<CR>', { desc = 'paste file to yeet.md' })                        -- yeet.md
 
 map({ 'v', 'x' }, '<leader>pp', ':w !paste-pick -p<CR>', { desc = 'paste lines to paste.c-net.org' }) -- paste.c-net.org
 map({ 'v', 'x' }, '<leader>pt', ':w !paste-pick -t<CR>', { desc = 'paste lines to termbin.com' })     -- termbin.com
 map({ 'v', 'x' }, '<leader>pn', ':w !paste-pick -z<CR>', { desc = 'paste lines to 0x0.st' })          -- 0x0.st
+map({ 'v', 'x' }, '<leader>pm', ':w !md-paste<CR>', { desc = 'paste lines to yeet.md' })              -- yeet.md
 
 -- Bash
 map('n', '<leader>pe', ':!paste-pick.sh -p %<CR>', { desc = 'paste file to paste.c-net.org' })           -- paste.c-net.org
@@ -175,10 +178,93 @@ map('n', '<S-up>', ':VimwikiDiaryPrevDay<CR>', { desc = 'Open Previous Day Diary
 map('n', '<S-down>', ':VimwikiDiaryNextDay<CR>', { desc = 'Open Next Day Diary Entry' })
 map('n', '<leader>wn', ':VimwikiGoto<CR>', { desc = '[N]ew [W]iki File' })
 
--- New Issue
+-- Sc-im
+map('n', '<leader>S', ":lua require'sc-im'.open_in_scim()<CR>", { noremap = true, silent = true })
+map('t', '<leader>X', [[<C-\><C-n>:lua require('sc-im').close()<CR>]], { noremap = true, silent = true })
+
+-- New Feature [Ext]
+-- map('n', '<leader>nf', function()
+--   vim.api.nvim_create_user_command('NewFeatureReport', 'mk-new-feature', { true, })
+--   vim.ui.input({ prompt = 'New feature file name: feat-' }, function(input)
+--     if input ~= nil then
+--       local filename = input
+--       vim.cmd.NewFeatureReport(filename)
+--     else
+--       print 'No filename specified'
+--     end
+--   end)
+-- end, { desc = '[N]ew [F]eature' })
+
+-- New Issue [Ext]
 map('n', '<leader>ni', function()
+  vim.ui.input({ prompt = 'Creating new issue: issue-' }, function(input)
+    if input ~= nil then
+      local title = 'issue-' .. input .. '.md'
+      local path = wikiDirMain
+      local newFile = path .. '/' .. title
+      print('new issue created at: ' .. path .. '/' .. title)
+      vim.system({ 'mk-new-issue', path, title }, { text = true }):wait()
+      vim.cmd.tabedit { newFile }
+    else
+      print 'No filename specified'
+    end
+  end)
+end)
+
+-- New Issue No Signal [Ext]
+map('n', '<leader>ns', function()
+  vim.ui.input({ prompt = 'Creating new issue: issue-no-signal-' }, function(input)
+    if input ~= nil then
+      local title = 'issue-no-signal-' .. input .. '.md'
+      local path = wikiDirMain
+      local newFile = path .. '/' .. title
+      print('new issue created at: ' .. path .. '/' .. title)
+      vim.system({ 'mk-new-issue-no-signal', path, title }, { text = true }):wait()
+      vim.cmd.tabedit { newFile }
+    else
+      print 'No filename specified'
+    end
+  end)
+end)
+
+-- New Feature [Ext]
+
+-- New Feature
+map('n', '<leader>nf', function()
+  vim.ui.input({ prompt = 'New feature file name: feat-' }, function(input)
+    if input ~= nil then
+      local feature_base_path = '/home/fugue/documentos/wiki/main/feat-'
+      local new_feat_filename = input
+      local new_feat_full_path = string.format('%s%s', feature_base_path, new_feat_filename)
+
+      vim.cmd.write { new_feat_full_path }
+
+      local feat_template = io.open('/home/fugue/documentos/wiki/main/feat-template.md', 'r')
+      if feat_template ~= nil then
+        local feat_text = feat_template:read '*a'
+        feat_text = string.format('# %s\n\n%s', new_feat_filename, feat_text)
+        feat_template:close()
+
+        -- dump read contents to new issue file
+        local outfile = io.open(new_feat_full_path, 'w')
+        if outfile ~= nil then
+          outfile:write(feat_text)
+          outfile:close()
+        end
+      end
+
+      -- open file
+      vim.cmd.edit { new_feat_full_path }
+    else
+      print 'No filename specified'
+    end
+  end)
+end, { desc = '[N]ew [F]eature' })
+
+-- New Issue
+map('n', '<leader>np', function()
   -- Load Vimwiki (hack to register file)
-  vim.cmd 'VimwikiIndex'
+  -- vim.cmd 'VimwikiIndex'
 
   -- Get file name from user
   vim.ui.input({ prompt = 'New issue file name: issue-' }, function(input)
@@ -209,7 +295,7 @@ map('n', '<leader>ni', function()
       -- open file
       vim.cmd.edit { new_issue_full_path }
     else
-      print 'No filename input'
+      print 'No filename specified'
     end
   end)
 end, { desc = '[N]ew [I]ssue' })
